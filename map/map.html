@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+<head>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+    <!--[if lte IE 8]>
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.ie.css" />
+    <![endif]-->
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html, body, #travel-map {
+            height: 100%;
+        }
+
+    </style>
+    <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+    <script src='//unpkg.com/leaflet-arc/bin/leaflet-arc.min.js'></script>
+    <script src="https://rawgit.com/calvinmetcalf/leaflet-ajax/master/dist/leaflet.ajax.min.js"></script>
+</head>
+<body>
+<div id="travel-map"></div>
+<script>
+    var Thunderforest_Pioneer = L.tileLayer('https://{s}.tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey={apikey}', {
+        attribution: '&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+        apikey: 'ef880876be0a46e9a799276ccc3697ed',
+        maxZoom: 22
+    });
+    var OpenMapSurfer_Roads = L.tileLayer('https://korona.geog.uni-heidelberg.de/tiles/roads/x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        attribution: 'Imagery from <a href="http://giscience.uni-hd.de/">GIScience Research Group @ University of Heidelberg</a> &mdash; Map data &copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+    });
+    var Esri_OceanBasemap = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Ocean_Basemap/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Sources: GEBCO, NOAA, CHS, OSU, UNH, CSUMB, National Geographic, DeLorme, NAVTEQ, and Esri',
+        maxZoom: 13
+    });
+    var Esri_DeLorme = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Specialty/DeLorme_World_Base_Map/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri &mdash; Copyright: &copy;2012 DeLorme',
+        minZoom: 1,
+        maxZoom: 11
+    });
+
+    function popUp(feature, layer) {
+        layer.bindPopup('hey there');
+        layer.bindPopup(feature.properties.Name);
+    }
+    var geojsonLayer = new L.GeoJSON.AJAX("../data/travel_locations.geojson", {onEachFeature:popUp});
+
+    var map = L.map('travel-map'); //.fitBounds(geojsonLayer.getBounds());
+    Esri_DeLorme.addTo(map);
+    geojsonLayer.addTo(map);
+    map.setView(new L.LatLng(24.16680208530324, 6.50390625), 3);
+
+//    L.Polyline.Arc([43.11667, 131.90000], [55.7522200, 37.6155600]).addTo(map);
+
+    L.Routing.control({
+        waypoints: [
+            L.latLng(43.11667, 131.90000),
+            L.latLng(55.7522200, 37.6155600)
+        ]
+    }).addTo(map);
+
+</script>
+</body>
+</html>
