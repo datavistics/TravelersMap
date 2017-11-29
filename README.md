@@ -7,6 +7,7 @@ We plan on going on many more trips, and it is my intent to grow this map as our
   * Add in [clicks](http://danielmontague.com/projects/easyButton.js/v1/examples/#clicks) for views 
   * Add a [sidebar](https://github.com/turbo87/leaflet-sidebar/)
   * Look for more [ideas](http://leafletjs.com/plugins.html#user-interface)
+  * Find a better map [here](http://leaflet-extras.github.io/leaflet-providers/preview/index.html)
   
 # Display
 This will be shown on my [blog](https://datavistics.github.io/) when a reasonable maturity is reached,
